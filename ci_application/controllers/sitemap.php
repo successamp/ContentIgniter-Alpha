@@ -50,9 +50,10 @@ class Sitemap extends CI_Controller
         if (empty($latest_sitemap)) {
             $this->load->model('Pagedata');
             $this->load->model('Newsdata');
+            $config_no_subdomain = $this->config->item('no_subdomain');
             $subdomain         = $this->Pagedata->get_subdomain();
             $subdomain_details = $this->Pagedata->get_data('subdomain');
-            if (empty($subdomain_details['active'])) { // Disable sitemaps for non-active subdomains
+            if (empty($config_no_subdomain) && empty($subdomain_details['active'])) { // Disable sitemaps for non-active subdomains
                 show_404();
                 exit;
             }

@@ -70,10 +70,11 @@
                 $subdomain = empty($item['subdomain']) ? '*' : $item['subdomain'];
                 if (empty($config_no_subdomain)) {
                     $url_subdomain = empty($item['subdomain']) ? 'www' : $item['subdomain'];
+                    $url_page     = ($item['url'] == $item['subdomain']) ? '' : $item['url'] . '/';
                 } else {
                     $url_subdomain = '';
+                    $url_page     = ($item['url'] == 'home') ? '' : $item['url'] . '/';
                 }
-                $url_page     = ($item['url'] == $item['subdomain']) ? '' : $item['url'] . '/';
                 $url_domain   = empty($config_no_subdomain) ? '.' . $this->config->item('rootdomain') : $this->config->item('rootdomain');
                 $active_class = empty($item['active']) ? ' error' : '';
                 ?>

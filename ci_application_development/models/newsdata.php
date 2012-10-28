@@ -257,9 +257,8 @@ class Newsdata extends Pagedata
         $this->db
             ->select('*')
             ->from('CORE_News');
-        if (ENVIRONMENT === 'production') {
-            $this->db->where('active', 1);
-        }
+        $this->db->where('active', 1);
+        $this->db->where('sitemap_item', 1);
         $this->db->where_in('subdomain', $subs);
         $total_posts = $this->db->count_all_results();
         $total_pages = ceil($total_posts / $items);
