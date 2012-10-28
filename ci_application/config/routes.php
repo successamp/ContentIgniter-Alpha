@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -40,24 +42,24 @@
 |
 */
 
-$route['default_controller'] = 'pages';
+$route['default_controller']  = 'pages';
 $route['scaffolding_trigger'] = '';
-$route['login/:any'] = 'login/index';
+$route['login/:any']          = 'login/index';
 
 // Catch all existing controllers else send to pages.
-if ($handle = opendir(APPPATH.'controllers')){
-    while (false !== ($file = readdir($handle))){
-        if ($file != '.' && $file != '..'){
-            if(strpos($file, '.php')){
-                $file = str_replace('.php','',$file);
-                $route[$file] = $file;
-                $route[$file.'/(:any)'] = $file.'/$1';
+if ($handle = opendir(APPPATH . 'controllers')) {
+    while (FALSE !== ($file = readdir($handle))) {
+        if ($file != '.' && $file != '..') {
+            if (strpos($file, '.php')) {
+                $file                     = str_replace('.php', '', $file);
+                $route[$file]             = $file;
+                $route[$file . '/(:any)'] = $file . '/$1';
             }
         }
     }
-  closedir($handle);
+    closedir($handle);
 }
 $route['news/(:any)'] = "news/index/$1";
-$route[':any'] = 'pages';
+$route[':any']        = 'pages';
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

@@ -16,22 +16,31 @@
  * through the world wide web, please send an email to
  * paul.dillinger@gmail.com so we can send you a copy immediately.
  *
- * @package		ContentIgniter
- * @author		Paul Dillinger
- * @copyright	Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://contentigniter.com
- * @since		Version 1.0
+ * @package        ContentIgniter
+ * @author         Paul Dillinger
+ * @copyright      Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link           http://contentigniter.com
+ * @since          Version 1.0
  * @filesource
  */
-?>    <div class="ci_col-5of6">
-        <div class=" admin_box">
-        <h1 class="admin_box_title">Edit Page</h1>
-        <a href="/editor/pages/">Return To Editor Pages</a>
-
-<?php
-echo $page_content;
 ?>
+<div id="Content" class="ci_col-1of1 clearfix ci_bottom">
+    <div class="ui-widget ui-widget-content ui-corner-all clearfix">
+        <h1 class="ui-widget-header ci-admin-header" id="PageTitle">Edit Page
+            <small>
+                <button href="/editor/pages/">Return To Editor Pages</button>
+            </small>
+            <small style="float:right;">Upload Custom Image:
+                <a href="/editor/custom_image_upload/" target="_blank">
+                    <img src="/static/img/icons/Picture.png" height="36" width="36" alt="Upload Custom Image" style="vertical-align: middle;"/>
+                </a>
+            </small>
+        </h1>
 
-        </div>
+        <?php
+        echo $page_content;
+        ?>
+
     </div>
+</div>

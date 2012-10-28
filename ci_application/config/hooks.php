@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------------
 | Hooks
@@ -13,10 +15,10 @@
 $hook['cache_override'] = array();
 // You can set multiple hooks by adding them to the above array as shown below
 $hook['cache_override'][] = array(
-                                'function' => 'contentigniter_cache_override',
-                                'filename' => 'contentigniter_hooks.php',
-                                'filepath' => 'hooks'
-                                );
+    'function' => 'contentigniter_cache_override',
+    'filename' => 'contentigniter_hooks.php',
+    'filepath' => 'hooks'
+);
 
 /* End of file hooks.php */
 /* Location: ./system/application/config/hooks.php */

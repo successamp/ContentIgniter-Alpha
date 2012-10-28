@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +12,7 @@
 |	example.com
 |
 */
-$config['rootdomain']	= 'domain.com';
+$config['rootdomain'] = 'domain.com';
 
 
 /*
@@ -21,7 +23,7 @@ $config['rootdomain']	= 'domain.com';
 | If the site uses any subdomains, even www this needs to be true.
 |
 */
-$config['no_subdomain']	= FALSE;
+$config['no_subdomain'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +36,7 @@ $config['no_subdomain']	= FALSE;
 |	_header,_nav,_article,_aside,_footer
 |
 */
-$config['page_template_types']	= '_header,_nav,_article,_aside,_footer';
+$config['page_template_types'] = '_header,_nav,_article,_aside,_footer';
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +48,7 @@ $config['page_template_types']	= '_header,_nav,_article,_aside,_footer';
 |	/static
 |	//static.example.com
 */
-$config['static_url']	= '//static.domain.com';
+$config['static_url'] = '//static.domain.com';
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +58,7 @@ $config['static_url']	= '//static.domain.com';
 | This is if you use a different static URL for secure vs. non-secure.
 |
 */
-$config['secure_static_url']	= '//static.domain.com';
+$config['secure_static_url'] = '//static.domain.com';
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +68,7 @@ $config['secure_static_url']	= '//static.domain.com';
 | Is SSL installed?
 |
 */
-$config['ssl_installed']	= '0';
+$config['ssl_installed'] = '0';
 
 /*
 |--------------------------------------------------------------------------

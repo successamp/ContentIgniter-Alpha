@@ -16,19 +16,21 @@
  * through the world wide web, please send an email to
  * paul.dillinger@gmail.com so we can send you a copy immediately.
  *
- * @package		ContentIgniter
- * @author		Paul Dillinger
- * @copyright	Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://contentigniter.com
- * @since		Version 1.0
+ * @package        ContentIgniter
+ * @author         Paul Dillinger
+ * @copyright      Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link           http://contentigniter.com
+ * @since          Version 1.0
  * @filesource
  */
-if (!defined('BASEPATH')) exit('No direct script access allowed');
-    foreach($page_template_types as $type_of_page_template){
-        if(!empty($is_cached[$type_of_page_template])){
-            echo ${$type_of_page_template};
-        }else{
-            $this->load->template($type_of_page_template);
-        }
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
+foreach ($page_template_types as $type_of_page_template) {
+    if (!empty($is_cached[$type_of_page_template])) {
+        echo ${$type_of_page_template};
+    } else {
+        $this->load->template($type_of_page_template);
     }
+}

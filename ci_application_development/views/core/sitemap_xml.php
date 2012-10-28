@@ -16,37 +16,39 @@
  * through the world wide web, please send an email to
  * paul.dillinger@gmail.com so we can send you a copy immediately.
  *
- * @package		ContentIgniter
- * @author		Paul Dillinger
- * @copyright	Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://contentigniter.com
- * @since		Version 1.0
+ * @package        ContentIgniter
+ * @author         Paul Dillinger
+ * @copyright      Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link           http://contentigniter.com
+ * @since          Version 1.0
  * @filesource
  */
 
-if(!empty($sitemapdata) && is_array($sitemapdata)){
-        if(empty($subdomain)){
-            $mapdomain = $rootdomain;
-            $subdomain['id'] = 'home';
-        }else{
-            $mapdomain = $subdomain['id'] . '.' . $rootdomain;
+if (!empty($sitemapdata) && is_array($sitemapdata)) {
+    if (empty($subdomain)) {
+        $mapdomain       = $rootdomain;
+        $subdomain['id'] = 'home';
+    } else {
+        $mapdomain = $subdomain['id'] . '.' . $rootdomain;
+    }
+    foreach ($sitemapdata as $page) {
+        if ($page['url'] == $subdomain['id']) {
+            $url = '/';
+        } else {
+            $url = '/' . $page['url'] . '/';
+
         }
-          foreach($sitemapdata as $page){
-                    if($page['url'] == $subdomain['id']){
-                              $url = '/';
-                    }else{
-                              $url = '/' . $page['url'] . '/';
+        ?>
+    <url>
+        <loc>http://<?=$mapdomain . $url;?></loc>
+        <?php
+        echo empty($page['lastmod']) ? '' : '                    <lastmod>' . substr($page['lastmod'], 0, 10) . '</lastmod>' . "\n";
+        echo empty($page['priority']) ? '' : '                    <priority>' . $page['priority'] . '</priority>' . "\n";
+        ?>
+    </url>
+    <?php
 
-                    }
-?>
-          <url>
-                    <loc>http://<?=$mapdomain . $url;?></loc>
-                    <lastmod><?=substr($page['lastmod'], 0, 10);?></lastmod>
-                    <priority><?=$page['priority'];?></priority>
-          </url>
-<?php
-
-          }
+    }
 }
 ?>

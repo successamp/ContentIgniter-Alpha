@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -34,36 +36,36 @@
 | the active record class
 */
 
-if(ENVIRONMENT !== 'development'){ // production and testing use the live database
+if (ENVIRONMENT !== 'development') { // production and testing use the live database
     $active_group = 'default';
-}else{ // development uses the development database
+} else { // development uses the development database
     $active_group = 'development';
 }
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'xxxxxxxxxx';
-$db['default']['password'] = 'xxxxxxxxxx';  //
+$db['default']['password'] = 'xxxxxxxxxx'; //
 $db['default']['database'] = 'xxxxxxxxxx';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = 'CI_';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = FALSE;
 $db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = APPPATH.'../ci_cache/';
+$db['default']['cachedir'] = APPPATH . '../ci_cache/';
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 
 $db['development']['hostname'] = 'localhost';
 $db['development']['username'] = 'xxxxxxxxxx';
-$db['development']['password'] = 'xxxxxxxxxx';  //
+$db['development']['password'] = 'xxxxxxxxxx'; //
 $db['development']['database'] = 'xxxxxxxxxx_DEVELOPMENT';
 $db['development']['dbdriver'] = 'mysql';
 $db['development']['dbprefix'] = 'CI_';
 $db['development']['pconnect'] = TRUE;
 $db['development']['db_debug'] = TRUE;
 $db['development']['cache_on'] = FALSE;
-$db['development']['cachedir'] = APPPATH.'../ci_cache/';
+$db['development']['cachedir'] = APPPATH . '../ci_cache/';
 $db['development']['char_set'] = 'utf8';
 $db['development']['dbcollat'] = 'utf8_general_ci';
 

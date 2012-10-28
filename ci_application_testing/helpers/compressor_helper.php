@@ -1,6 +1,7 @@
 <?php
 /**
  * Class Minify_CSS_Compressor
+ *
  * @package Minify
  */
 
@@ -13,20 +14,21 @@
  * including the ie5/mac filter (and its inversion), but expect tricky
  * hacks involving comment tokens in 'content' value strings to break
  * minimization badly. A test suite is available.
- * 
+ *
  * @package Minify
- * @author Stephen Clay <steve@mrclay.org>
- * @author http://code.google.com/u/1stvamp/ (Issue 64 patch)
+ * @author  Stephen Clay <steve@mrclay.org>
+ * @author  http://code.google.com/u/1stvamp/ (Issue 64 patch)
  */
-class Minify_CSS_Compressor {
+class Minify_CSS_Compressor
+{
 
     /**
      * Minify a CSS string
-     * 
+     *
      * @param string $css
-     * 
-     * @param array $options (currently ignored)
-     * 
+     *
+     * @param array  $options (currently ignored)
+     *
      * @return string
      */
     public static function process($css, $options = array())
@@ -34,18 +36,18 @@ class Minify_CSS_Compressor {
         $obj = new Minify_CSS_Compressor($options);
         return $obj->_process($css);
     }
-    
+
     /**
      * @var array options
      */
-    protected $_options = null;
+    protected $_options = NULL;
 
     /**
      * @var bool Are we "in" a hack?
      *
      * I.e. are some browsers targetted until the next comment?
      */
-    protected $_inHack = false;
+    protected $_inHack = FALSE;
 
 
     /**
@@ -55,7 +57,8 @@ class Minify_CSS_Compressor {
      *
      * @return null
      */
-    private function __construct($options) {
+    private function __construct($options)
+    {
         $this->_options = $options;
     }
 
@@ -80,8 +83,10 @@ class Minify_CSS_Compressor {
         $css = preg_replace('@:\\s*/\\*\\s*\\*/@', ':/*keep*/', $css);
 
         // apply callback to all valid comments (and strip out surrounding ws
-        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@'
-            ,array($this, '_commentCB'), $css);
+        $css = preg_replace_callback('@\\s*/\\*([\\s\\S]*?)\\*/\\s*@', array(
+                                                                            $this,
+                                                                            '_commentCB'
+                                                                       ), $css);
 
         // remove ws around { } and last semicolon in declaration block
         $css = preg_replace('/\\s*{\\s*/', '{', $css);
@@ -122,16 +127,19 @@ class Minify_CSS_Compressor {
                 \\s*
                 [^~>+,\\s]+      # selector part
                 {                # open declaration block
-            /x'
-            ,array($this, '_selectorsCB'), $css);
+            /x', array(
+                      $this,
+                      '_selectorsCB'
+                 ), $css);
 
         // minimize hex colors
-        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i'
-            , '$1#$2$3$4$5', $css);
+        $css = preg_replace('/([^=])#([a-f\\d])\\2([a-f\\d])\\3([a-f\\d])\\4([\\s;\\}])/i', '$1#$2$3$4$5', $css);
 
         // remove spaces between font families
-        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/'
-            ,array($this, '_fontFamilyCB'), $css);
+        $css = preg_replace_callback('/font-family:([^;}]+)([;}])/', array(
+                                                                          $this,
+                                                                          '_fontFamilyCB'
+                                                                     ), $css);
 
         $css = preg_replace('/@import\\s+url/', '@import url', $css);
 
@@ -145,8 +153,7 @@ class Minify_CSS_Compressor {
         $css = preg_replace('/
             ((?:padding|margin|border|outline):\\d+(?:px|em)?) # 1 = prop : 1st numeric value
             \\s+
-            /x'
-            ,"$1\n", $css);
+            /x', "$1\n", $css);
 
         // prevent triggering IE6 bug: http://www.crankygeek.com/ie6pebug/
         $css = preg_replace('/:first-l(etter|ine)\\{/', ':first-l$1 {', $css);
@@ -177,7 +184,7 @@ class Minify_CSS_Compressor {
     protected function _commentCB($m)
     {
         $hasSurroundingWs = (trim($m[0]) !== $m[1]);
-        $m = $m[1];
+        $m                = $m[1];
         // $m is the comment content w/o the surrounding tokens,
         // but the return value will replace the entire comment.
         if ($m === 'keep') {
@@ -199,40 +206,40 @@ class Minify_CSS_Compressor {
                     (\\S[\\s\\S]+?)  # has at least some non-ws content
                     \\s*
                     /\\*             # ends like /*/ or /**/
-                @x', $m, $n)) {
+                @x', $m, $n)
+            ) {
                 // end hack mode after this comment, but preserve the hack and comment content
-                $this->_inHack = false;
+                $this->_inHack = FALSE;
                 return "/*/{$n[1]}/**/";
             }
         }
         if (substr($m, -1) === '\\') { // comment ends like \*/
             // begin hack mode and preserve hack
-            $this->_inHack = true;
+            $this->_inHack = TRUE;
             return '/*\\*/';
         }
         if ($m !== '' && $m[0] === '/') { // comment looks like /*/ foo */
             // begin hack mode and preserve hack
-            $this->_inHack = true;
+            $this->_inHack = TRUE;
             return '/*/*/';
         }
         if ($this->_inHack) {
             // a regular comment ends hack mode but should be preserved
-            $this->_inHack = false;
+            $this->_inHack = FALSE;
             return '/**/';
         }
         // Issue 107: if there's any surrounding whitespace, it may be important, so 
         // replace the comment with a single space
         return $hasSurroundingWs // remove all other comments
-            ? ' '
-            : '';
+            ? ' ' : '';
     }
-    
+
     /**
      * Process a font-family listing and return a replacement
-     * 
+     *
      * @param array $m regex matches
-     * 
-     * @return string   
+     *
+     * @return string
      */
     protected function _fontFamilyCB($m)
     {
@@ -251,6 +258,7 @@ class Minify_CSS_Compressor {
 
 /**
  * Class Minify_HTML
+ *
  * @package Minify
  */
 
@@ -264,16 +272,17 @@ class Minify_CSS_Compressor {
  * A test suite is available.
  *
  * @package Minify
- * @author Stephen Clay <steve@mrclay.org>
+ * @author  Stephen Clay <steve@mrclay.org>
  */
-class Minify_HTML {
+class Minify_HTML
+{
 
     /**
      * "Minify" an HTML page
      *
      * @param string $html
      *
-     * @param array $options
+     * @param array  $options
      *
      * 'cssMinifier' : (optional) callback function to process content of STYLE
      * elements.
@@ -286,7 +295,8 @@ class Minify_HTML {
      *
      * @return string
      */
-    public static function minify($html, $options = array()) {
+    public static function minify($html, $options = array())
+    {
         $min = new Minify_HTML($html, $options);
         return $min->process();
     }
@@ -297,7 +307,7 @@ class Minify_HTML {
      *
      * @param string $html
      *
-     * @param array $options
+     * @param array  $options
      *
      * 'cssMinifier' : (optional) callback function to process content of STYLE
      * elements.
@@ -332,90 +342,81 @@ class Minify_HTML {
      */
     public function process()
     {
-        if ($this->_isXhtml === null) {
-            $this->_isXhtml = (false !== strpos($this->_html, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML'));
+        if ($this->_isXhtml === NULL) {
+            $this->_isXhtml = (FALSE !== strpos($this->_html, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML'));
         }
 
         $this->_replacementHash = 'MINIFYHTML' . md5($_SERVER['REQUEST_TIME']);
-        $this->_placeholders = array();
+        $this->_placeholders    = array();
 
         // replace SCRIPTs (and minify) with placeholders
-        $this->_html = preg_replace_callback(
-            '/(\\s*)(<script\\b[^>]*?>)([\\s\\S]*?)<\\/script>(\\s*)/i'
-            ,array($this, '_removeScriptCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/(\\s*)(<script\\b[^>]*?>)([\\s\\S]*?)<\\/script>(\\s*)/i', array(
+                                                                                                               $this,
+                                                                                                               '_removeScriptCB'
+                                                                                                          ), $this->_html);
 
         // replace STYLEs (and minify) with placeholders
-        $this->_html = preg_replace_callback(
-            '/\\s*(<style\\b[^>]*?>)([\\s\\S]*?)<\\/style>\\s*/i'
-            ,array($this, '_removeStyleCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/\\s*(<style\\b[^>]*?>)([\\s\\S]*?)<\\/style>\\s*/i', array(
+                                                                                                         $this,
+                                                                                                         '_removeStyleCB'
+                                                                                                    ), $this->_html);
 
         // remove HTML comments (not containing IE conditional comments).
-        $this->_html = preg_replace_callback(
-            '/<!--([\\s\\S]*?)-->/'
-            ,array($this, '_commentCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/<!--([\\s\\S]*?)-->/', array(
+                                                                           $this,
+                                                                           '_commentCB'
+                                                                      ), $this->_html);
 
         // replace PREs with placeholders
-        $this->_html = preg_replace_callback('/\\s*(<pre\\b[^>]*?>[\\s\\S]*?<\\/pre>)\\s*/i'
-            ,array($this, '_removePreCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/\\s*(<pre\\b[^>]*?>[\\s\\S]*?<\\/pre>)\\s*/i', array(
+                                                                                                   $this,
+                                                                                                   '_removePreCB'
+                                                                                              ), $this->_html);
 
         // replace TEXTAREAs with placeholders
-        $this->_html = preg_replace_callback(
-            '/\\s*(<textarea\\b[^>]*?>[\\s\\S]*?<\\/textarea>)\\s*/i'
-            ,array($this, '_removeTextareaCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/\\s*(<textarea\\b[^>]*?>[\\s\\S]*?<\\/textarea>)\\s*/i', array(
+                                                                                                             $this,
+                                                                                                             '_removeTextareaCB'
+                                                                                                        ), $this->_html);
 
         // trim each line.
         // @todo take into account attribute values that span multiple lines.
         $this->_html = preg_replace('/^\\s+|\\s+$/m', '', $this->_html);
 
         // remove ws around block/undisplayed elements
-        $this->_html = preg_replace('/\\s+(<\\/?(?:area|base(?:font)?|blockquote|body'
-            .'|caption|center|cite|col(?:group)?|dd|dir|div|dl|dt|fieldset|form'
-            .'|frame(?:set)?|h[1-6]|head|hr|html|legend|li|link|map|menu|meta'
-            .'|ol|opt(?:group|ion)|p|param|t(?:able|body|head|d|h||r|foot|itle)'
-            .'|ul)\\b[^>]*>)/i', '$1', $this->_html);
+        $this->_html = preg_replace('/\\s+(<\\/?(?:area|base(?:font)?|blockquote|body' . '|caption|center|cite|col(?:group)?|dd|dir|div|dl|dt|fieldset|form' . '|frame(?:set)?|h[1-6]|head|hr|html|legend|li|link|map|menu|meta' . '|ol|opt(?:group|ion)|p|param|t(?:able|body|head|d|h||r|foot|itle)' . '|ul)\\b[^>]*>)/i', '$1', $this->_html);
 
         // remove ws outside of all elements
-        $this->_html = preg_replace_callback(
-            '/>([^<]+)</'
-            ,array($this, '_outsideTagCB')
-            ,$this->_html);
+        $this->_html = preg_replace_callback('/>([^<]+)</', array(
+                                                                 $this,
+                                                                 '_outsideTagCB'
+                                                            ), $this->_html);
 
         // use newlines before 1st attribute in open tags (to limit line lengths)
         $this->_html = preg_replace('/(<[a-z\\-]+)\\s+([^>]+>)/i', "$1\n$2", $this->_html);
 
         // fill placeholders
-        $this->_html = str_replace(
-            array_keys($this->_placeholders)
-            ,array_values($this->_placeholders)
-            ,$this->_html
-        );
+        $this->_html = str_replace(array_keys($this->_placeholders), array_values($this->_placeholders), $this->_html);
         return $this->_html;
     }
 
     protected function _commentCB($m)
     {
-        return (0 === strpos($m[1], '[') || false !== strpos($m[1], '<!['))
-            ? $m[0]
-            : '';
+        return (0 === strpos($m[1], '[') || FALSE !== strpos($m[1], '<![')) ? $m[0] : '';
     }
 
     protected function _reservePlace($content)
     {
-        $placeholder = '%' . $this->_replacementHash . count($this->_placeholders) . '%';
+        $placeholder                       = '%' . $this->_replacementHash . count($this->_placeholders) . '%';
         $this->_placeholders[$placeholder] = $content;
         return $placeholder;
     }
 
-    protected $_isXhtml = null;
-    protected $_replacementHash = null;
+    protected $_isXhtml = NULL;
+    protected $_replacementHash = NULL;
     protected $_placeholders = array();
-    protected $_cssMinifier = null;
-    protected $_jsMinifier = null;
+    protected $_cssMinifier = NULL;
+    protected $_jsMinifier = NULL;
 
     protected function _outsideTagCB($m)
     {
@@ -435,7 +436,7 @@ class Minify_HTML {
     protected function _removeStyleCB($m)
     {
         $openStyle = $m[1];
-        $css = $m[2];
+        $css       = $m[2];
         // remove HTML comments
         $css = preg_replace('/(?:^\\s*<!--|-->\\s*$)/', '', $css);
 
@@ -443,21 +444,16 @@ class Minify_HTML {
         $css = $this->_removeCdata($css);
 
         // minify
-        $minifier = $this->_cssMinifier
-            ? $this->_cssMinifier
-            : 'trim';
-        $css = call_user_func($minifier, $css);
+        $minifier = $this->_cssMinifier ? $this->_cssMinifier : 'trim';
+        $css      = call_user_func($minifier, $css);
 
-        return $this->_reservePlace($this->_needsCdata($css)
-            ? "{$openStyle}/*<![CDATA[*/{$css}/*]]>*/</style>"
-            : "{$openStyle}{$css}</style>"
-        );
+        return $this->_reservePlace($this->_needsCdata($css) ? "{$openStyle}/*<![CDATA[*/{$css}/*]]>*/</style>" : "{$openStyle}{$css}</style>");
     }
 
     protected function _removeScriptCB($m)
     {
         $openScript = $m[2];
-        $js = $m[3];
+        $js         = $m[3];
 
         // whitespace surrounding? preserve at least one space
         $ws1 = ($m[1] === '') ? '' : ' ';
@@ -470,22 +466,18 @@ class Minify_HTML {
         $js = $this->_removeCdata($js);
 
         // minify
-        $minifier = $this->_jsMinifier
-            ? $this->_jsMinifier
-            : 'trim';
-        $js = call_user_func($minifier, $js);
+        $minifier = $this->_jsMinifier ? $this->_jsMinifier : 'trim';
+        $js       = call_user_func($minifier, $js);
 
-        return $this->_reservePlace($this->_needsCdata($js)
-            ? "{$ws1}{$openScript}/*<![CDATA[*/{$js}/*]]>*/</script>{$ws2}"
-            : "{$ws1}{$openScript}{$js}</script>{$ws2}"
-        );
+        return $this->_reservePlace($this->_needsCdata($js) ? "{$ws1}{$openScript}/*<![CDATA[*/{$js}/*]]>*/</script>{$ws2}" : "{$ws1}{$openScript}{$js}</script>{$ws2}");
     }
 
     protected function _removeCdata($str)
     {
-        return (false !== strpos($str, '<![CDATA['))
-            ? str_replace(array('<![CDATA[', ']]>'), '', $str)
-            : $str;
+        return (FALSE !== strpos($str, '<![CDATA[')) ? str_replace(array(
+                                                                        '<![CDATA[',
+                                                                        ']]>'
+                                                                   ), '', $str) : $str;
     }
 
     protected function _needsCdata($str)

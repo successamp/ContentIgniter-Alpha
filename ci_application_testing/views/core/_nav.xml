@@ -1,45 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <menu>
-    <!-- Example -->
-    <logged_in>
+    <logged_in></logged_in>
+    <member>
         <link>
-            <url>/account/</url>
-            <name>Account Home</name>
+            <url>/example/</url>
+            <name>Example</name>
         </link>
-        <link>
-            <url>/login/logout/</url>
-            <name>Logout</name>
-        </link>
-    </logged_in>
-    <member></member>
+    </member>
     <editor>
         <link>
-            <url>/editor/pages/</url>
-            <name>Edit Pages</name>
-        </link>
-        <link>
-            <url>/editor/news/</url>
-            <name>Edit News (Blog)</name>
-        </link>
-        <link>
-            <url>/editor/subdomains/</url>
-            <name>Edit Subdomains</name>
-        </link>
-        <link>
-            <url>/editor/clear_cache/</url>
-            <name>Clear All Cache</name>
+            <url>/editor/q_a/</url>
+            <name>Q&amp;A</name>
         </link>
     </editor>
     <moderator></moderator>
-    <admin>
-        <link>
-            <url>/admin/home/</url>
-            <name>Admin Home</name>
-        </link>
-        <link>
-            <url>/todo/</url>
-            <name>Todo List</name>
-        </link>
-    </admin>
+    <admin></admin>
     <developer></developer>
 </menu>

@@ -16,114 +16,171 @@
  * through the world wide web, please send an email to
  * paul.dillinger@gmail.com so we can send you a copy immediately.
  *
- * @package		ContentIgniter
- * @author		Paul Dillinger
- * @copyright	Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://contentigniter.com
- * @since		Version 1.0
+ * @package        ContentIgniter
+ * @author         Paul Dillinger
+ * @copyright      Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link           http://contentigniter.com
+ * @since          Version 1.0
  * @filesource
  */
+?><?php
+if (file_exists(APPPATH . 'views/core/_nav.xml')) {
+    $xml = simplexml_load_file(APPPATH . 'views/core/_nav.xml');
+}
+?>
 
-if (file_exists(APPPATH.'views/core/_nav.xml')){
-    $xml = simplexml_load_file(APPPATH.'views/core/_nav.xml');
-}
-?>
-    <div class="ci_col-1of6 noprint">
-        <div class="admin_box" id="Menu">
-            <h1 class="admin_box_title">Menu</h1>
-            <h2>User Menu:</h2>
-<?php
-if ($this->session->userdata("logged_in")){
+<!-- Menu -->
+<nav class="ci_col-1of1 clearfix ci_bottom ci_top">
+    <div id="Menu">
 
-    if(!empty($xml->logged_in)){
-        foreach($xml->logged_in->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-if ($this->session->auth('member')){
-    if(!empty($xml->member)){
-        foreach($xml->member->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-if ($this->session->auth('editor')){
-?>
-            <h2>Editor Menu:</h2>
-
-<?php
-    if(!empty($xml->editor)){
-        foreach($xml->editor->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-if ($this->session->auth('moderator')){
-?>
-            <h2>Moderator Menu:</h2>
-<?php
-    if(!empty($xml->moderator)){
-        foreach($xml->moderator->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-if ($this->session->auth('admin')){
-?>
-            <h2>Admin Menu:</h2>
-
-<?php
-    if(!empty($xml->admin)){
-        foreach($xml->admin->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-if ($this->session->auth('developer')){
-?>
-            <h2>Developer Menu:</h2>
-<?php
-    if(ENVIRONMENT === 'production'){
-        echo "Production is ON<br/>";
-    }else{
-        echo "<a href=\"/admin/set_production/\" class=\"menu_item\">Production OFF (turn on)</a><br/>";
-    }
-    if(ENVIRONMENT === 'development'){
-        echo "Development is ON<br/>";
-    }else{
-        echo "<a href=\"/admin/set_development/\" class=\"menu_item\">Development OFF (turn on)</a><br/>";
-    }
-    if(ENVIRONMENT === 'testing'){
-        echo "Testing is ON<br/>";
-    }else{
-        echo "<a href=\"/admin/set_testing/\" class=\"menu_item\">Testing OFF (turn on)</a><br/>";
-    }
-    if(!ENVIRONMENT_DEBUG){
-        echo 'FirePHP is ON (<a href="/admin/firephp_off/">Turn Off</a>) <br/>';
-    }else{
-        echo 'FirePHP is OFF* (<a href="/admin/firephp_on/">Turn On</a>)<br/> &nbsp; &nbsp; <sup>*Errors reported to your screen</sup><br/>';
-    }
-    if(!empty($xml->developer)){
-        foreach($xml->developer->link as $item){
-?>
-                <a href="<?=$item->url;?>" class="menu_item"><?=$item->name;?></a><br/>
-<?php
-        }
-    }
-}
-?>
+        <ul>
+            <li><a href="#submenu-1">User:</a></li>
+            <?php
+            if ($this->session->auth('editor')) {
+                ?>
+                <li><a href="#submenu-2">Editor</a></li>
+                <?php
+            }
+            if ($this->session->auth('moderator')) {
+                ?>
+                <li><a href="#submenu-3">Moderator</a></li>
+                <?php
+            }
+            if ($this->session->auth('moderator')) {
+                ?>
+                <li><a href="#submenu-4">Admin</a></li>
+                <?php
+            }
+            if ($this->session->auth('moderator')) {
+                ?>
+                <li><a href="#submenu-5">Developer</a></li>
+                <?php
+            }
+            ?>
+        </ul>
+        <div id="submenu-1">
+            <?php
+            if ($this->session->userdata("logged_in")) {
+                ?>
+                <button href="/account/">Account Home</button>
+                <button href="/login/logout/">Logout</button>
+                <?php
+                if (!empty($xml->logged_in)) {
+                    foreach ($xml->logged_in->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            if ($this->session->auth('member')) {
+                if (!empty($xml->member)) {
+                    foreach ($xml->member->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            ?>
         </div>
-        <p>Page rendered in {elapsed_time} seconds</p>
+        <div id="submenu-2">
+            <?php
+            if ($this->session->auth('editor')) {
+                ?>
+                <button href="/editor/pages/">Edit Pages</button>
+                <button href="/editor/news/">Edit News (Blog)</button>
+                <button href="/editor/subdomains/">Edit Subdomains</button>
+                <button href="/editor/clear_cache/">Clear All Cache</button>
+                <?php
+                if (!empty($xml->editor)) {
+                    foreach ($xml->editor->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+        <div id="submenu-3">
+            <?php
+            if ($this->session->auth('moderator')) {
+                if (ENVIRONMENT === 'production') {
+                    echo "<span style=\"color:green;\">(Production is ON)</span> &nbsp; ";
+                } else {
+                    echo "<button href=\"/moderator/set_production/\" class=\"menu_item\"><span style=\"color:green;\">Turn On</span> <span style=\"color:red;\">Production</span></button> &nbsp; ";
+                }
+                if (ENVIRONMENT === 'testing') {
+                    echo "<span style=\"color:green;\">(Testing is ON)</span>  &nbsp; ";
+                } else {
+                    echo "<button href=\"/moderator/set_testing/\" class=\"menu_item\"><span style=\"color:green;\">Turn On</span> <span style=\"color:red;\">Testing</span></button> &nbsp; ";
+                }
+                if (!empty($xml->moderator)) {
+                    foreach ($xml->moderator->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+        <div id="submenu-4">
+            <?php
+            if ($this->session->auth('admin')) {
+                ?>
+                <button href="/admin/home/">Admin Home</button>
+                <button href="/admin/change_password/">Change A Password</button>
+                <button href="/todo/">Todo List</button>
+                <?php
+                if (!empty($xml->moderator)) {
+                    foreach ($xml->moderator->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            ?>
+
+        </div>
+        <div id="submenu-5">
+            <?php
+            if ($this->session->auth('developer')) {
+                if (ENVIRONMENT === 'production') {
+                    echo "<span style=\"color:green;\">(Production is ON)</span> &nbsp; ";
+                } else {
+                    echo "<button href=\"/admin/set_production/\" class=\"menu_item\"><span style=\"color:green;\">Turn On</span> <span style=\"color:red;\">Production</span></button> &nbsp; ";
+                }
+                if (ENVIRONMENT === 'testing') {
+                    echo "<span style=\"color:green;\">(Testing is ON)</span>  &nbsp; ";
+                } else {
+                    echo "<button href=\"/admin/set_testing/\" class=\"menu_item\"><span style=\"color:green;\">Turn On</span> <span style=\"color:red;\">Testing</span></button> &nbsp; ";
+                }
+                if (ENVIRONMENT === 'development') {
+                    echo "<span style=\"color:green;\">(Development is ON)</span>  &nbsp; ";
+                } else {
+                    echo "<button href=\"/admin/set_development/\" class=\"menu_item\"><span style=\"color:green;\">Turn On</span> <span style=\"color:red;\">Development</span></button> &nbsp; ";
+                }
+                if (!ENVIRONMENT_DEBUG) {
+                    echo "<button href=\"/admin/firephp_off/\"><span style=\"color:red;\">Turn Off FirePHP*</span></button>  &nbsp; <sup>*Errors will be reported to your screen</sup>";
+                } else {
+                    echo "<button href=\"/admin/firephp_on/\"><span style=\"color:green;\">Turn On FirePHP*</span></button> &nbsp; <sup>*Errors no longer reported to your screen</sup>";
+                }
+
+                if (!empty($xml->moderator)) {
+                    foreach ($xml->moderator->link as $item) {
+                        ?>
+                        <button href="<?=$item->url;?>"><?=$item->name;?></button>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+
     </div>
+    <!-- End Menu -->
+</nav>

@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +13,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= 'http://www.domain.com/';
+$config['base_url'] = 'http://www.domain.com/';
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +43,7 @@ $config['index_page'] = '';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'PATH_INFO'; //AUTO
+$config['uri_protocol'] = 'PATH_INFO'; //AUTO
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +68,7 @@ $config['url_suffix'] = '/';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -149,9 +151,9 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 |
 */
 $config['enable_query_strings'] = FALSE;
-$config['controller_trigger'] 	= 'c';
-$config['function_trigger'] 	= 'm';
-$config['directory_trigger'] 	= 'd'; // experimental not currently in use
+$config['controller_trigger']   = 'c';
+$config['function_trigger']     = 'm';
+$config['directory_trigger']    = 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
@@ -173,7 +175,7 @@ $config['directory_trigger'] 	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-    $config['log_threshold'] = (ENVIRONMENT === 'production') ? 1 : 2;
+$config['log_threshold'] = (ENVIRONMENT === 'production') ? 1 : 2;
 
 /*
 |--------------------------------------------------------------------------
@@ -207,7 +209,7 @@ $config['log_date_format'] = 'Y-m-d H:i:s';
 | system/cache/ folder.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = APPPATH.'../ci_cache/';
+$config['cache_path'] = APPPATH . '../ci_cache/';
 
 /*
 |--------------------------------------------------------------------------
@@ -232,14 +234,14 @@ $config['encryption_key'] = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 | 'time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'CISession';
-$config['sess_expiration']		= 43200;
-$config['sess_encrypt_cookie']	= TRUE;
-$config['sess_use_database']	= TRUE;
-$config['sess_table_name']		= 'CORE_Sessions';
-$config['sess_match_ip']		= TRUE;
-$config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update'] 	= 3600;
+$config['sess_cookie_name']     = 'CISession';
+$config['sess_expiration']      = 43200;
+$config['sess_encrypt_cookie']  = TRUE;
+$config['sess_use_database']    = TRUE;
+$config['sess_table_name']      = 'CORE_Sessions';
+$config['sess_match_ip']        = TRUE;
+$config['sess_match_useragent'] = TRUE;
+$config['sess_time_to_update']  = 3600;
 
 /*
 |--------------------------------------------------------------------------
@@ -251,9 +253,9 @@ $config['sess_time_to_update'] 	= 3600;
 | 'cookie_path'   =  Typically will be a forward slash
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path']   = '/';
 
 /*
 |--------------------------------------------------------------------------

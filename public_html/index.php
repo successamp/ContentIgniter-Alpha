@@ -17,12 +17,12 @@
  * through the world wide web, please send an email to
  * paul.dillinger@gmail.com so we can send you a copy immediately.
  *
- * @package		ContentIgniter
- * @author		Paul Dillinger
- * @copyright	Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
- * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
- * @link		http://contentigniter.com
- * @since		Version 1.0
+ * @package        ContentIgniter
+ * @author         Paul Dillinger
+ * @copyright      Copyright (c) 2008 - 2012, Paul R. Dillinger. (http://prd.me/)
+ * @license        http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
+ * @link           http://contentigniter.com
+ * @since          Version 1.0
  * @filesource
  */
 
@@ -69,74 +69,66 @@
 //ini_set('session.cookie_domain', '.domain.com');
 
 
-	// Cookie set to enable the 'development' environment
-    // MAKE THESE UNIQUE
-    define('DEVEL_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+// Cookie set to enable the 'development' environment
+// MAKE THESE UNIQUE
+define('DEVEL_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-    // Cookie set to enable the 'test' environment
-    // MAKE THESE UNIQUE
-	define('TEST_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+// Cookie set to enable the 'test' environment
+// MAKE THESE UNIQUE
+define('TEST_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-    // Cookie set to enable error reporting in the 'production' environment
-    // This also disables FirePHP
-    // MAKE THESE UNIQUE
-	define('DEBUG_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+// Cookie set to enable error reporting in the 'production' environment
+// This also disables FirePHP
+// MAKE THESE UNIQUE
+define('DEBUG_SECRET', 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
-    $environment_cookie = $_COOKIE['ENVIRONMENT'];
+$environment_cookie = $_COOKIE['ENVIRONMENT'];
 
-	if(empty($environment_cookie)){
-    	define('ENVIRONMENT', 'production');
-       	define('ENVIRONMENT_DEBUG', FALSE);
-	}else{
-        $salt  = date('Fd'); // Cookie is good until midnight
-        $environment_key_cookie = $_COOKIE['ENVIRONMENT_KEY'];
-	    if($environment_cookie == 'development'){
-	        if($environment_key_cookie == hash('md4', $salt . DEVEL_SECRET)){
-            	define('ENVIRONMENT', 'development');
-            	define('ENVIRONMENT_DEBUG', FALSE);
-	        }
-	        elseif($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)){
-            	define('ENVIRONMENT', 'development');
-            	define('ENVIRONMENT_DEBUG', TRUE);
-	        }
-    	    else{
-	            setcookie ('ENVIRONMENT', '', time() - 3600); // Reset the cookie
-            	define('ENVIRONMENT', 'production');
-        	    define('ENVIRONMENT_DEBUG', FALSE);
-            }
-	    }
-	    elseif($environment_cookie == 'testing'){
-	        if($environment_key_cookie == hash('md4', $salt . TEST_SECRET)){
-            	define('ENVIRONMENT', 'testing');
-            	define('ENVIRONMENT_DEBUG', FALSE);
-	        }
-	        elseif($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)){
-            	define('ENVIRONMENT', 'testing');
-            	define('ENVIRONMENT_DEBUG', TRUE);
-	        }
-    	    else{
-	            setcookie ('ENVIRONMENT', '', time() - 3600); // Reset the cookie
-            	define('ENVIRONMENT', 'production');
-        	    define('ENVIRONMENT_DEBUG', FALSE);
-            }
-	    }
-	    elseif($environment_cookie == 'production'){
-	        if($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)){
-            	define('ENVIRONMENT', 'production');
-            	define('ENVIRONMENT_DEBUG', TRUE);
-	        }
-    	    else{
-	            setcookie ('ENVIRONMENT', '', time() - 3600); // Reset the cookie
-            	define('ENVIRONMENT', 'production');
-        	    define('ENVIRONMENT_DEBUG', FALSE);
-            }
-	    }
-	    else{
-	        setcookie ('ENVIRONMENT', '', time() - 3600); // Reset the cookie
-        	define('ENVIRONMENT', 'production');
-        	define('ENVIRONMENT_DEBUG', FALSE);
-	    }
-	}
+if (empty($environment_cookie)) {
+    define('ENVIRONMENT', 'production');
+    define('ENVIRONMENT_DEBUG', FALSE);
+} else {
+    $salt                   = date('Fd'); // Cookie is good until midnight
+    $environment_key_cookie = $_COOKIE['ENVIRONMENT_KEY'];
+    if ($environment_cookie == 'development') {
+        if ($environment_key_cookie == hash('md4', $salt . DEVEL_SECRET)) {
+            define('ENVIRONMENT', 'development');
+            define('ENVIRONMENT_DEBUG', FALSE);
+        } elseif ($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)) {
+            define('ENVIRONMENT', 'development');
+            define('ENVIRONMENT_DEBUG', TRUE);
+        } else {
+            setcookie('ENVIRONMENT', '', time() - 3600); // Reset the cookie
+            define('ENVIRONMENT', 'production');
+            define('ENVIRONMENT_DEBUG', FALSE);
+        }
+    } elseif ($environment_cookie == 'testing') {
+        if ($environment_key_cookie == hash('md4', $salt . TEST_SECRET)) {
+            define('ENVIRONMENT', 'testing');
+            define('ENVIRONMENT_DEBUG', FALSE);
+        } elseif ($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)) {
+            define('ENVIRONMENT', 'testing');
+            define('ENVIRONMENT_DEBUG', TRUE);
+        } else {
+            setcookie('ENVIRONMENT', '', time() - 3600); // Reset the cookie
+            define('ENVIRONMENT', 'production');
+            define('ENVIRONMENT_DEBUG', FALSE);
+        }
+    } elseif ($environment_cookie == 'production') {
+        if ($environment_key_cookie == hash('md4', $salt . DEBUG_SECRET)) {
+            define('ENVIRONMENT', 'production');
+            define('ENVIRONMENT_DEBUG', TRUE);
+        } else {
+            setcookie('ENVIRONMENT', '', time() - 3600); // Reset the cookie
+            define('ENVIRONMENT', 'production');
+            define('ENVIRONMENT_DEBUG', FALSE);
+        }
+    } else {
+        setcookie('ENVIRONMENT', '', time() - 3600); // Reset the cookie
+        define('ENVIRONMENT', 'production');
+        define('ENVIRONMENT_DEBUG', FALSE);
+    }
+}
 
 /*
  *---------------------------------------------------------------
@@ -147,14 +139,13 @@
  * By default development will show errors but testing and live will hide them.
  */
 
-if (defined('ENVIRONMENT'))
-{
-/*
- *---------------------------------------------------------------
- * PATHS
- *---------------------------------------------------------------
- *
- */
+if (defined('ENVIRONMENT')) {
+    /*
+     *---------------------------------------------------------------
+     * PATHS
+     *---------------------------------------------------------------
+     *
+     */
     define('DEVELOPMENT_SYSTEM_PATH', '../CodeIgniter_2.1.0/system');
 
     define('TESTING_SYSTEM_PATH', '../CodeIgniter_2.1.0/system');
@@ -166,33 +157,32 @@ if (defined('ENVIRONMENT'))
     define('TESTING_APPLICATION_FOLDER', '../ci_application_testing');
 
     define('PRODUCTION_APPLICATION_FOLDER', '../ci_application');
-/*
- *---------------------------------------------------------------
- */
+    /*
+     *---------------------------------------------------------------
+     */
 
-	switch (ENVIRONMENT)
-	{
-		case 'development':
-			error_reporting(-1);
-          	$system_path = DEVELOPMENT_SYSTEM_PATH;
-        	$application_folder = DEVELOPMENT_APPLICATION_FOLDER;
-		break;
+    switch (ENVIRONMENT) {
+        case 'development':
+            error_reporting(-1);
+            $system_path        = DEVELOPMENT_SYSTEM_PATH;
+            $application_folder = DEVELOPMENT_APPLICATION_FOLDER;
+            break;
 
-		case 'testing':
-			error_reporting(-1);
-          	$system_path = TESTING_SYSTEM_PATH;
-        	$application_folder = TESTING_APPLICATION_FOLDER;
-		break;
+        case 'testing':
+            error_reporting(-1);
+            $system_path        = TESTING_SYSTEM_PATH;
+            $application_folder = TESTING_APPLICATION_FOLDER;
+            break;
 
-		case 'production':
-			error_reporting(0);
-          	$system_path = PRODUCTION_SYSTEM_PATH;
-        	$application_folder = PRODUCTION_APPLICATION_FOLDER;
-		break;
+        case 'production':
+            error_reporting(0);
+            $system_path        = PRODUCTION_SYSTEM_PATH;
+            $application_folder = PRODUCTION_APPLICATION_FOLDER;
+            break;
 
-		default:
-			exit('The application environment is not set correctly.');
-	}
+        default:
+            exit('The application environment is not set correctly.');
+    }
 }
 
 /*
@@ -215,15 +205,15 @@ if (defined('ENVIRONMENT'))
  * Un-comment the $routing array below to use this feature
  *
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
-	// if your controller is not in a sub-folder within the "controllers" folder
-	// $routing['directory'] = '';
+// The directory name, relative to the "controllers" folder.  Leave blank
+// if your controller is not in a sub-folder within the "controllers" folder
+// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  Mycontroller
-	// $routing['controller'] = '';
+// The controller class file name.  Example:  Mycontroller
+// $routing['controller'] = '';
 
-	// The controller function you wish to be called.
-	// $routing['function']	= '';
+// The controller function you wish to be called.
+// $routing['function']	= '';
 
 
 /*
@@ -241,8 +231,7 @@ if (defined('ENVIRONMENT'))
  * Un-comment the $assign_to_config array below to use this feature
  *
  */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
-
+// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
 // --------------------------------------------------------------------
@@ -255,62 +244,55 @@ if (defined('ENVIRONMENT'))
  * ---------------------------------------------------------------
  */
 
-	// Set the current directory correctly for CLI requests
-	if (defined('STDIN'))
-	{
-		chdir(dirname(__FILE__));
-	}
+// Set the current directory correctly for CLI requests
+if (defined('STDIN')) {
+    chdir(dirname(__FILE__));
+}
 
-	if (realpath($system_path) !== FALSE)
-	{
-		$system_path = realpath($system_path).'/';
-	}
+if (realpath($system_path) !== FALSE) {
+    $system_path = realpath($system_path) . '/';
+}
 
-	// ensure there's a trailing slash
-	$system_path = rtrim($system_path, '/').'/';
+// ensure there's a trailing slash
+$system_path = rtrim($system_path, '/') . '/';
 
-	// Is the system path correct?
-	if ( ! is_dir($system_path))
-	{
-		exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: ".pathinfo(__FILE__, PATHINFO_BASENAME));
-	}
+// Is the system path correct?
+if (!is_dir($system_path)) {
+    exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: " . pathinfo(__FILE__, PATHINFO_BASENAME));
+}
 
 /*
  * -------------------------------------------------------------------
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-	// The name of THIS file
-	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+// The name of THIS file
+define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-	// The PHP file extension
-	// this global constant is deprecated.
-	define('EXT', '.php');
+// The PHP file extension
+// this global constant is deprecated.
+define('EXT', '.php');
 
-	// Path to the system folder
-	define('BASEPATH', str_replace("\\", "/", $system_path));
+// Path to the system folder
+define('BASEPATH', str_replace("\\", "/", $system_path));
 
-	// Path to the front controller (this file)
-	define('FCPATH', str_replace(SELF, '', __FILE__));
+// Path to the front controller (this file)
+define('FCPATH', str_replace(SELF, '', __FILE__));
 
-	// Name of the "system folder"
-	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+// Name of the "system folder"
+define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
 
-	// The path to the "application" folder
-	if (is_dir($application_folder))
-	{
-		define('APPPATH', $application_folder.'/');
-	}
-	else
-	{
-		if ( ! is_dir(BASEPATH.$application_folder.'/'))
-		{
-			exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: ".SELF);
-		}
+// The path to the "application" folder
+if (is_dir($application_folder)) {
+    define('APPPATH', $application_folder . '/');
+} else {
+    if (!is_dir(BASEPATH . $application_folder . '/')) {
+        exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: " . SELF);
+    }
 
-		define('APPPATH', BASEPATH.$application_folder.'/');
-	}
+    define('APPPATH', BASEPATH . $application_folder . '/');
+}
 
 /*
  * --------------------------------------------------------------------
@@ -320,7 +302,7 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+require_once BASEPATH . 'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
